@@ -28,12 +28,28 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown("space") && isGroundTouched())
         {
-            rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+            Jump();
         }
     }
-  
+
+    void Jump()
+    {
+        rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("ENemy Head"))
+        {
+            Destroy(collision.transform.parent.gameObject);
+            Jump();
+        }
+    }
+
     bool isGroundTouched()
     {
         return Physics.CheckSphere(groundCheck.position, .1f , ground);
     }
+
+    
 }
